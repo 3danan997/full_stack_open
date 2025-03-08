@@ -3,15 +3,15 @@ import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
 import personService from './services/persons'
+import styles from './App.module.css'
 
 const Notification = ({ message,type }) => {
   if (message === null) {
     return null
   }
-  console.log(type);
   
   return (
-    <div className={type}>
+    <div className={`${styles.notification} ${type === 'error' ? styles.error : styles.success}`}>
       {message}
     </div>
   )
@@ -43,9 +43,7 @@ const App = () => {
     setNewNumber(event.target.value);
   };
 
-  const notificationSetter = (message,type)=>{
-    console.log('first one: ',type);
-    
+  const notificationSetter = (message,type)=>{ 
     setNotification(message)
     setNotificationType(type)
     setTimeout(()=>{
@@ -84,7 +82,7 @@ const App = () => {
     }
     personService
       .create(newObject)
-      .then(returnedPerson => {
+      .then(returnedPerson => {       
         setPersons(persons.concat(returnedPerson));
         setNewName("");
         setNewNumber("");
@@ -101,9 +99,9 @@ const App = () => {
     if(window.confirm(`Delete ${personToBeDeleted}?`)){
       personService
       .deletePerson(id)
-      .then(returnedId => {
+      .then(returnedId => {              
         setPersons(persons.filter(person => person.id !== returnedId))
-        notificationSetter(`${personToBeDeleted} has been deleted from phonebook.`,'success')        
+        notificationSetter(`${personToBeDeleted} has been deleted from phonebook.`,'success')          
       }
       ).catch( () =>{
         notificationSetter(`${personToBeDeleted} is already deleted from the server.`,'error')
@@ -113,7 +111,7 @@ const App = () => {
   }
 
   return (
-    <div className="main">
+    <div className={styles.main}>
       <h2>Phonebook</h2>
       <Notification message={notification} type={notificationType}/>
       <Filter

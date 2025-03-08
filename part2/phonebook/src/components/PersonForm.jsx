@@ -1,13 +1,17 @@
+import styles from './PersonForm.module.css'
+
 const PersonForm = ({addPerson, newName, handleNameInput, newNumber, handleNumberInput}) => (
-  <form onSubmit={addPerson}>
-    <div>
-      name: <input value={newName} onChange={handleNameInput} />
+  <form onSubmit={addPerson} className={styles.form}>
+    <div className={styles.input_group}>
+      <label htmlFor="name" className={styles.label}>name:</label>
+      <input id="name" value={newName} onChange={handleNameInput} className={styles.input} />
+    </div>
+    <div className={styles.input_group}>
+      <label htmlFor="number" className={styles.label}>number:</label>
+      <input id="number" value={newNumber} onChange={handleNumberInput} className={styles.input} />
     </div>
     <div>
-      number: <input value={newNumber} onChange={handleNumberInput} />
-    </div>
-    <div>
-      <button type="submit">add</button>
+      <button type="submit" className={styles.add_button}>add</button>
     </div>
   </form>
 );
